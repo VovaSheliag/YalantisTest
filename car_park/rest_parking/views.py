@@ -18,6 +18,15 @@ class DriversListView(APIView):
         drivers_list_serializer = DriversListSerializer(drivers_list, many=True)
         return Response(drivers_list_serializer.data)
 
+    def post(self, request, *args, **kwargs):
+        driver_create_serializer = DriversListSerializer(data=request.data)
+        if driver_create_serializer.is_valid():
+            driver_create_serializer.save()
+            return Response(f"Success {driver_create_serializer.data['first_name']} "
+                            f"{driver_create_serializer.data['last_name']}"
+                            f"was created")
+        return Response(driver_create_serializer.errors, status=201)
+
 
 class DriverByIdListView(APIView):
     """
@@ -29,6 +38,11 @@ class DriverByIdListView(APIView):
             return Response('No driver with that id')
         driver_serializer = DriversListSerializer(driver, many=True)
         return Response(driver_serializer.data)
+
+
+class DriverPostView(generics.CreateAPIView):
+    serializer_class = DriversListSerializer
+
 
 
 def get_drivers_list(request):
