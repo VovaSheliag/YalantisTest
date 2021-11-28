@@ -1,5 +1,7 @@
 import datetime
 
+from django.shortcuts import get_list_or_404
+
 from .serializers import DriversListSerializer, VehicleListSerializer
 from .models import Driver, Vehicle
 from rest_framework import generics
@@ -15,6 +17,18 @@ class DriversListView(APIView):
         drivers_list = get_drivers_list(request)
         drivers_list_serializer = DriversListSerializer(drivers_list, many=True)
         return Response(drivers_list_serializer.data)
+
+
+class DriverByIdListView(APIView):
+    """
+    Get driver from model by id
+    """
+    def get(self, driver_id):
+        driver = Driver.objects.filter(id=driver_id)
+        if not driver:
+            return Response('No driver with that id')
+        driver_serializer = DriversListSerializer(driver, many=True)
+        return Response(driver_serializer.data)
 
 
 def get_drivers_list(request):
