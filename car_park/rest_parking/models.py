@@ -1,4 +1,5 @@
 from django.db import models
+from .validators import plate_number_validator
 
 
 class Driver(models.Model):
@@ -21,7 +22,9 @@ class Vehicle(models.Model):
     driver_id = models.ForeignKey(Driver, on_delete=models.CASCADE)
     make = models.CharField(max_length=255)
     model = models.CharField(max_length=128)
-    plate_number = models.CharField(max_length=10, unique=True)
+    plate_number = models.CharField(max_length=10, unique=True,             # Validate format example "AA 1234 OO"
+                                    validators=[plate_number_validator])
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(blank=True, null=True, auto_now=True)
 
