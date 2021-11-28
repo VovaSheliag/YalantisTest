@@ -7,6 +7,10 @@ from rest_framework.views import APIView, Response
 
 
 class DriversListView(APIView):
+    """
+    Get all drivers list, or get driver by date if in request we have "created_at__gte" - means get drivers created
+    greater than equal inputed date or "created_at__lte" - means get drivers created less than equal inputed date
+    """
     def get(self, request, *args, **kwargs):
         drivers_list = get_drivers_list(request)
         drivers_list_serializer = DriversListSerializer(drivers_list, many=True)
