@@ -32,17 +32,27 @@ class DriverByIdListView(APIView):
     """
     Get driver from model by id
     """
-    def get(self, driver_id):
+    def get(self, request, driver_id):
         driver = Driver.objects.filter(id=driver_id)
         if not driver:
             return Response('No driver with that id')
         driver_serializer = DriversListSerializer(driver, many=True)
         return Response(driver_serializer.data)
 
+    def put(self, request, driver_id):
+        data = request.data
+        driver = Driver.objects.get(id=driver_id)
+        driver_serializer = DriversListSerializer(data=request.data, many=True)
+        if driver_serializer.is_valid():
+            driver.first_name = data[0]['first_name']
+            driver.last_name = data[0]['last_name']
+            driver.save()
+            return Response(f"Success driver was updated")
+        return Response(driver_serializer.errors, status=201)
+
 
 class DriverPostView(generics.CreateAPIView):
     serializer_class = DriversListSerializer
-
 
 
 def get_drivers_list(request):
@@ -64,3 +74,4 @@ def get_drivers_list(request):
 def get_splited_date(date, symbol):
     """First argument is a date, and a second is a symbol which is used to split"""
     return [int(x) for x in date.split(symbol)]
+
