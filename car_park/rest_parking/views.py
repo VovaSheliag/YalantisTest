@@ -50,6 +50,13 @@ class DriverByIdListView(APIView):
             return Response(f"Success driver was updated")
         return Response(driver_serializer.errors, status=201)
 
+    def delete(self, request, driver_id):
+        driver = Driver.objects.get(id=driver_id)
+        if not driver:
+            return Response(f"No driver with id={driver_id}")
+        driver.delete()
+        return Response(f"Success: driver with id={driver_id} was deleted")
+
 
 class DriverPostView(generics.CreateAPIView):
     serializer_class = DriversListSerializer
