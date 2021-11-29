@@ -19,7 +19,7 @@ class Vehicle(models.Model):
     """
     Model to save info about drivers vehicle
     """
-    driver_id = models.ForeignKey(Driver, on_delete=models.CASCADE)
+    driver_id = models.ForeignKey(Driver, on_delete=models.CASCADE, null=True)
     make = models.CharField(max_length=255)
     model = models.CharField(max_length=128)
     plate_number = models.CharField(max_length=10, unique=True,             # Validate format example "AA 1234 OO"
