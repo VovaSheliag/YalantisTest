@@ -62,6 +62,15 @@ class DriverPostView(generics.CreateAPIView):
     serializer_class = DriversListSerializer
 
 
+class VehiclesListView(APIView):
+    def get(self, request):
+        vehicles = get_vehicles(request)
+        if not vehicles:
+            return Response('No such vehicles in database')
+        vehicles_serializer = VehicleListSerializer(vehicles, many=True)
+        return Response(vehicles_serializer.data)
+
+
 def get_drivers_list(request):
     if 'created_at__gte' in request.GET:
         date = get_splited_date(request.GET['created_at__gte'], '-')
@@ -82,3 +91,10 @@ def get_splited_date(date, symbol):
     """First argument is a date, and a second is a symbol which is used to split"""
     return [int(x) for x in date.split(symbol)]
 
+
+def get_vehicles(request):
+    if 'with_drivers' in request.GET:
+        if request.GET['with_drivers'] == 'yes':
+            return Vehicle.objects.filter(driver_id=not None)
+        return Vehicle.objects.filter(driver_id=None)
+    return Vehicle.objects.all()
