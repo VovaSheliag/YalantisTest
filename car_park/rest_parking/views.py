@@ -35,7 +35,7 @@ class DriverByIdListView(APIView):
     def get(self, request, driver_id):
         driver = Driver.objects.filter(id=driver_id)
         if not driver:
-            return Response('No driver with that id')
+            return Response(f'No driver with id={driver_id}')
         driver_serializer = DriversListSerializer(driver, many=True)
         return Response(driver_serializer.data)
 
