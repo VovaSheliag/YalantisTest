@@ -30,7 +30,7 @@ class DriversListView(APIView):
 
 class DriverByIdListView(APIView):
     """
-    Get driver from model by id
+    Get, update, delete  driver from model by id
     """
     def get(self, request, driver_id):
         driver = Driver.objects.filter(id=driver_id)
