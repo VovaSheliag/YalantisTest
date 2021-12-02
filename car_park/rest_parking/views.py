@@ -32,7 +32,7 @@ class DriverByIdListView(APIView):
     def get(self, request, driver_id):
         driver = get_driver_by_id(driver_id)
         if not driver:
-            return Response(f'No driver with id={driver_id}')
+            return Response(f'Error: No driver with id={driver_id}')
         driver_serializer = DriversListSerializer(driver, many=True)
         return Response(driver_serializer.data)
 
@@ -67,4 +67,12 @@ class VehiclesListView(APIView):
         vehicles_serializer = VehicleListSerializer(vehicles, many=True)
         return Response(vehicles_serializer.data)
 
+
+class VehicleCRUDView(APIView):
+    def get(self, request, vehicle_id):
+        vehicle = get_vehicle_by_id(vehicle_id)
+        if not vehicle:
+            return Response(f'Error: No vehicle with id={vehicle_id}')
+        vehicle_serializer = VehicleListSerializer(vehicle, many=True)
+        return Response(vehicle_serializer.data)
 

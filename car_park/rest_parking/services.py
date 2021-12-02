@@ -33,3 +33,7 @@ def get_vehicles(request):
 
 def get_driver_by_id(driver_id):
     return Driver.objects.get(id=driver_id)
+
+
+def get_vehicle_by_id(vehicle_id):
+    return Vehicle.objects.get(id=vehicle_id)
