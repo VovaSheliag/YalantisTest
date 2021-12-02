@@ -1,6 +1,6 @@
 from .models import Driver, Vehicle
 import datetime
-from .serializers import DriversListSerializer, VehicleListSerializer
+from rest_framework.views import Response
 
 
 def get_drivers_list(request):
@@ -38,3 +38,10 @@ def get_driver_by_id(driver_id):
 
 def get_vehicle_by_id(vehicle_id):
     return Vehicle.objects.filter(id=vehicle_id)
+
+
+def delete_object_by_id(obj, obj_id):
+    if not obj:
+        return Response(f"No object with id={obj_id}")
+    obj.delete()
+    return Response(f"Success: object with id={obj_id} was deleted")

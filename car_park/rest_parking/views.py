@@ -11,6 +11,8 @@ class DriversListView(APIView):
     """
     def get(self, request, *args, **kwargs):
         drivers_list = get_drivers_list(request)
+        if not drivers_list:
+            return Response(f'Error: No drivers yet')
         drivers_list_serializer = DriversListSerializer(drivers_list, many=True)
         return Response(drivers_list_serializer.data)
 
@@ -48,27 +50,19 @@ class DriverByIdListView(APIView):
 
     def delete(self, request, driver_id):
         driver = get_driver_by_id(driver_id)
-        if not driver:
-            return Response(f"No driver with id={driver_id}")
-        driver.delete()
-        return Response(f"Success: driver with id={driver_id} was deleted")
-
-
-class DriverPostView(generics.CreateAPIView):
-    serializer_class = DriversListSerializer
+        return delete_object_by_id(driver, driver_id)
 
 
 class VehiclesListView(APIView):
     def get(self, request):
         vehicles = get_vehicles(request)
         if not vehicles:
-            return Response('No such vehicles in database')
+            return Response('No vehicles yet')
         vehicles_serializer = VehicleListSerializer(vehicles, many=True)
         return Response(vehicles_serializer.data)
 
     def post(self, request, *args, **kwargs):
         new_vehicle = VehicleListSerializer(data=request.data, many=True)
-        print(new_vehicle)
         if new_vehicle.is_valid():
             new_vehicle.save()
             return Response(f"Success: vehicle {new_vehicle.data[0]['model']} | "
@@ -89,4 +83,8 @@ class VehicleCRUDView(APIView):
         vehicle = get_vehicle_by_id(vehicle_id)
         vehicle.update(make=data[0]['make'], model=data[0]['model'], plate_number=data[0]['plate_number'])
         return Response(f"Success: vehicle with id={vehicle_id} was updated")
+
+    def delete(self, request, vehicle_id):
+        vehicle = get_vehicle_by_id(vehicle_id)
+        return delete_object_by_id(vehicle, vehicle_id)
 
