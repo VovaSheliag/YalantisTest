@@ -88,3 +88,17 @@ class VehicleCRUDView(APIView):
         vehicle = get_vehicle_by_id(vehicle_id)
         return delete_object_by_id(vehicle, vehicle_id)
 
+
+class VehicleDriverSetView(APIView):
+    def post(self, request, vehicle_id):
+        vehicle = Vehicle.objects.filter(id=vehicle_id)
+        print(vehicle)
+        driver_id = request.data[0]['driver_id']
+        if not vehicle:
+            return Response(f'Error: No vehicle with id={vehicle_id}')
+        driver = Driver.objects.filter(id=driver_id)
+        if not driver and driver_id:
+            return Response(f'Error: No driver with id={driver_id}')
+        set_driver_in_vehicle(vehicle, driver_id)
+        return Response(f'Success: driver with id={driver_id} was set in vehicle with id={vehicle_id}')
+

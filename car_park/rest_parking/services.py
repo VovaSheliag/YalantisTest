@@ -45,3 +45,7 @@ def delete_object_by_id(obj, obj_id):
         return Response(f"No object with id={obj_id}")
     obj.delete()
     return Response(f"Success: object with id={obj_id} was deleted")
+
+
+def set_driver_in_vehicle(vehicle, driver_id):
+    vehicle.update(driver_id=driver_id)
