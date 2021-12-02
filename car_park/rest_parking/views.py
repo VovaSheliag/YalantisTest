@@ -38,7 +38,7 @@ class DriverByIdListView(APIView):
     def put(self, request, driver_id):
         data = request.data
         driver = get_driver_by_id(driver_id)
-        driver_serializer = DriversListSerializer(request.data, many=True)
+        driver_serializer = DriversListSerializer(data=data, many=True)
         if driver_serializer.is_valid():
             driver.first_name = data[0]['first_name']
             driver.last_name = data[0]['last_name']
@@ -84,5 +84,9 @@ class VehicleCRUDView(APIView):
         vehicle_serializer = VehicleListSerializer(vehicle, many=True)
         return Response(vehicle_serializer.data)
 
-
+    def put(self, request, vehicle_id):
+        data = request.data
+        vehicle = get_vehicle_by_id(vehicle_id)
+        vehicle.update(make=data[0]['make'], model=data[0]['model'], plate_number=data[0]['plate_number'])
+        return Response(f"Success: vehicle with id={vehicle_id} was updated")
 
