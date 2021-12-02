@@ -1,5 +1,6 @@
 from .models import Driver, Vehicle
 import datetime
+from .serializers import DriversListSerializer, VehicleListSerializer
 
 
 def get_drivers_list(request):
@@ -37,3 +38,11 @@ def get_driver_by_id(driver_id):
 
 def get_vehicle_by_id(vehicle_id):
     return Vehicle.objects.get(id=vehicle_id)
+
+
+def serialize_drivers_data(data):
+    return DriversListSerializer(data=data, many=True)
+
+
+def serialize_vehicle_data(data):
+    return VehicleListSerializer(data=data, many=True)

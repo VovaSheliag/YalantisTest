@@ -1,5 +1,3 @@
-from .serializers import DriversListSerializer, VehicleListSerializer
-from .models import Driver, Vehicle
 from rest_framework import generics
 from rest_framework.views import APIView, Response
 from .services import *
@@ -12,11 +10,11 @@ class DriversListView(APIView):
     """
     def get(self, request, *args, **kwargs):
         drivers_list = get_drivers_list(request)
-        drivers_list_serializer = DriversListSerializer(drivers_list, many=True)
+        drivers_list_serializer = serialize_drivers_data(drivers_list)
         return Response(drivers_list_serializer.data)
 
     def post(self, request, *args, **kwargs):
-        driver_create_serializer = DriversListSerializer(data=request.data)
+        driver_create_serializer = serialize_drivers_data(request.data)
         if driver_create_serializer.is_valid():
             driver_create_serializer.save()
             return Response(f"Success {driver_create_serializer.data['first_name']} "
@@ -33,13 +31,13 @@ class DriverByIdListView(APIView):
         driver = get_driver_by_id(driver_id)
         if not driver:
             return Response(f'Error: No driver with id={driver_id}')
-        driver_serializer = DriversListSerializer(driver, many=True)
+        driver_serializer = serialize_drivers_data(driver)
         return Response(driver_serializer.data)
 
     def put(self, request, driver_id):
         data = request.data
         driver = get_driver_by_id(driver_id)
-        driver_serializer = DriversListSerializer(data=request.data, many=True)
+        driver_serializer = serialize_drivers_data(request.data)
         if driver_serializer.is_valid():
             driver.first_name = data[0]['first_name']
             driver.last_name = data[0]['last_name']
@@ -64,7 +62,7 @@ class VehiclesListView(APIView):
         vehicles = get_vehicles(request)
         if not vehicles:
             return Response('No such vehicles in database')
-        vehicles_serializer = VehicleListSerializer(vehicles, many=True)
+        vehicles_serializer = serialize_vehicle_data(vehicles)
         return Response(vehicles_serializer.data)
 
 
@@ -73,6 +71,6 @@ class VehicleCRUDView(APIView):
         vehicle = get_vehicle_by_id(vehicle_id)
         if not vehicle:
             return Response(f'Error: No vehicle with id={vehicle_id}')
-        vehicle_serializer = VehicleListSerializer(vehicle, many=True)
+        vehicle_serializer = serialize_vehicle_data(vehicle)
         return Response(vehicle_serializer.data)
 
