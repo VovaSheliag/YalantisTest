@@ -1,11 +1,8 @@
-import datetime
-
-from django.shortcuts import get_list_or_404
-
 from .serializers import DriversListSerializer, VehicleListSerializer
 from .models import Driver, Vehicle
 from rest_framework import generics
 from rest_framework.views import APIView, Response
+from .services import *
 
 
 class DriversListView(APIView):
@@ -33,7 +30,7 @@ class DriverByIdListView(APIView):
     Get, update, delete  driver from model by id
     """
     def get(self, request, driver_id):
-        driver = Driver.objects.filter(id=driver_id)
+        driver = get_driver_by_id(driver_id)
         if not driver:
             return Response(f'No driver with id={driver_id}')
         driver_serializer = DriversListSerializer(driver, many=True)
@@ -41,7 +38,7 @@ class DriverByIdListView(APIView):
 
     def put(self, request, driver_id):
         data = request.data
-        driver = Driver.objects.get(id=driver_id)
+        driver = get_driver_by_id(driver_id)
         driver_serializer = DriversListSerializer(data=request.data, many=True)
         if driver_serializer.is_valid():
             driver.first_name = data[0]['first_name']
@@ -51,7 +48,7 @@ class DriverByIdListView(APIView):
         return Response(driver_serializer.errors, status=201)
 
     def delete(self, request, driver_id):
-        driver = Driver.objects.get(id=driver_id)
+        driver = get_driver_by_id(driver_id)
         if not driver:
             return Response(f"No driver with id={driver_id}")
         driver.delete()

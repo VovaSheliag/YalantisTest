@@ -29,3 +29,7 @@ def get_vehicles(request):
             return Vehicle.objects.filter(driver_id=not None)
         return Vehicle.objects.filter(driver_id=None)
     return Vehicle.objects.all()
+
+
+def get_driver_by_id(driver_id):
+    return Driver.objects.get(id=driver_id)
