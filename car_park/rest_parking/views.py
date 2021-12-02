@@ -68,10 +68,11 @@ class VehiclesListView(APIView):
 
     def post(self, request, *args, **kwargs):
         new_vehicle = VehicleListSerializer(data=request.data, many=True)
+        print(new_vehicle)
         if new_vehicle.is_valid():
             new_vehicle.save()
-            return Response(f"Success: vehicle {new_vehicle.data['model']} | "
-                            f"{new_vehicle.data['plate_number']} was created")
+            return Response(f"Success: vehicle {new_vehicle.data[0]['model']} | "
+                            f"{new_vehicle.data[0]['plate_number']} was created")
         return Response(new_vehicle.errors, status=201)
 
 

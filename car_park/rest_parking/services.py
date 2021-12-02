@@ -27,8 +27,8 @@ def get_splited_date(date, symbol):
 def get_vehicles(request):
     if 'with_drivers' in request.GET:
         if request.GET['with_drivers'] == 'yes':
-            return Vehicle.objects.filter(driver_id=not None)
-        return Vehicle.objects.filter(driver_id=None)
+            return Vehicle.objects.filter(driver_id__isnull=False)
+        return Vehicle.objects.filter(driver_id__isnull=True)
     return Vehicle.objects.all()
 
 
