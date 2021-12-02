@@ -5,4 +5,5 @@ urlpatterns = [
     path('drivers/driver/', views.DriversListView.as_view()),
     path('drivers/driver/<int:driver_id>/', views.DriverByIdListView.as_view()),
     path('vehicles/vehicle/', views.VehiclesListView.as_view()),
+    path('vehicles/vehicle/<int:vehicle_id>/', views.VehicleCRUDView.as_view()),
 ]

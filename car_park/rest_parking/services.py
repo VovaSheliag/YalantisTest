@@ -33,16 +33,8 @@ def get_vehicles(request):
 
 
 def get_driver_by_id(driver_id):
-    return Driver.objects.get(id=driver_id)
+    return Driver.objects.filter(id=driver_id)
 
 
 def get_vehicle_by_id(vehicle_id):
-    return Vehicle.objects.get(id=vehicle_id)
-
-
-def serialize_drivers_data(data):
-    return DriversListSerializer(data=data, many=True)
-
-
-def serialize_vehicle_data(data):
-    return VehicleListSerializer(data=data, many=True)
+    return Vehicle.objects.filter(id=vehicle_id)
