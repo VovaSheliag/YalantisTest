@@ -54,6 +54,10 @@ class DriverByIdListView(APIView):
 
 
 class VehiclesListView(APIView):
+    """
+    Get all vehicles, or vehicles with/without driver by adding parameters (with_driver=yes/no)
+    Post new vehicle
+    """
     def get(self, request):
         vehicles = get_vehicles(request)
         if not vehicles:
