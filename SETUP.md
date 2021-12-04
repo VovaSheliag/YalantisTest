@@ -1,48 +1,50 @@
-Доступные учетные записи
+# REST API for car park with drivers
 
-| Тип пользователя | Логин  | Пароль   |
-| ---------------- |--------|----------|
-| Админ            | admin  | MoS6EE8r |
+Available accounts
 
-# Установка
+| User type | Login | Password |
+|-----------|-------|----------|
+| Admin     | admin | MoS6EE8r |
 
-Для запуска на ПК должны быть установлены:
+# Installation
+
+To run on a PC, must be installed:
 [Python 3.9](https://www.python.org/downloads/);
 [Git](https://git-scm.com/);
 
-Склонируйте репозиторий
+Clone repository
 
 ```sh
 $ git clone https://github.com/VovaSheliag/YalantisTest.git
 ```
 
-### 1) Настройка Django
+### 1) Django setup
 
-В корне проекта создайте виртуальное окружение и активируйте его
+At the root of the project, create a virtual environment and activate it
 
 ```sh
 $ python -m venv “venv”
-$ .\venv\Scripts\activate (для Linux: source ./venv/bin/activate)
+$ .\venv\Scripts\activate (for Linux: source ./venv/bin/activate)
 ```
 
-#### Все последующие действия производить внутри виртуального окружения
+#### All subsequent actions should be performed inside the virtual environment.
 
-Установите все необходимые зависимости для работы Django
+Install all required dependencies for Django to work
 
 ```sh
 $ pip install -r requirements.txt
 ```
 
-#### В папке core скопируйте файл .env.example в .env
+#### In the core folder, copy the .env.example file to .env
 
-Установите все необходимые миграции, убедитесь, что был создан файл db.sqlite3
+Install all required migrations, make sure db.sqlite3 file was generated
 
 ```sh
 $ python manage.py makemigrations
 $ python manage.py migrate
 ```
 
-Запустите проект
+Run the project
 
 ```sh
 $ python manage.py runserver
