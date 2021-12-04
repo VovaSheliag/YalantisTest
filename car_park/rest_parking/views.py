@@ -97,9 +97,11 @@ class VehicleCRUDView(APIView):
 
 
 class VehicleDriverSetView(APIView):
+    """
+    Post to set or unset driver to vehicle by id
+    """
     def post(self, request, vehicle_id):
         vehicle = Vehicle.objects.filter(id=vehicle_id)
-        print(vehicle)
         driver_id = request.data[0]['driver_id']
         if not vehicle:
             return Response(f'Error: No vehicle with id={vehicle_id}')
