@@ -75,6 +75,9 @@ class VehiclesListView(APIView):
 
 
 class VehicleCRUDView(APIView):
+    """
+    Get, put, delete vehicle by id
+    """
     def get(self, request, vehicle_id):
         vehicle = get_vehicle_by_id(vehicle_id)
         if not vehicle:
