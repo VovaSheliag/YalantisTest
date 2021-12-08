@@ -1,11 +1,5 @@
 # REST API for car park with drivers
 
-Available accounts
-
-| User type | Login | Password |
-|-----------|-------|----------|
-| Admin     | admin | MoS6EE8r |
-
 # Installation
 
 To run on a PC, must be installed:
